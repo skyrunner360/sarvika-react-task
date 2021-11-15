@@ -31,7 +31,7 @@ export default function Home(props) {
       };
     const getuserdata=async()=>{
         // Getting token from localstorage
-        var token = JSON.parse(localStorage.getItem("login"));
+        var token = await JSON.parse(localStorage.getItem("login"));
         let realtoken = token.token;
         await fetch("https://dushyant70-task-app.herokuapp.com/users/me",{headers:{"Authorization": "Bearer "+realtoken}}).then(
             (response)=>{
@@ -42,7 +42,7 @@ export default function Home(props) {
         ).catch((e)=>{console.log("User Data Error"+e)})
     }
     const addtask=async(description,completed)=>{
-      var token = JSON.parse(localStorage.getItem("login"));
+      var token = await JSON.parse(localStorage.getItem("login"));
       let realtoken = token.token;
       await fetch("https://dushyant70-task-app.herokuapp.com/tasks",{method:"POST",body: JSON.stringify({description,completed}), headers:{"Authorization": "Bearer "+realtoken,"content-type":"application/json"}}).then(
           (response)=>{
@@ -54,9 +54,9 @@ export default function Home(props) {
       ).catch((e)=>{console.log("Add task Error"+e)})
   }
     const gettasklist=async()=>{
-      var token = JSON.parse(localStorage.getItem("login"));
+      var token = await JSON.parse(localStorage.getItem("login"));
       let realtoken = token.token;
-      await fetch("https://dushyant70-task-app.herokuapp.com/tasks?limit=10&skip=1",{headers:{"Authorization": "Bearer "+realtoken,"content-type":"application/json"}}).then(
+      await fetch("https://dushyant70-task-app.herokuapp.com/tasks?limit=10&skip=0",{headers:{"Authorization": "Bearer "+realtoken,"content-type":"application/json"}}).then(
           (response)=>{
               response.json().then((result)=>{
                   setTasks(result)
@@ -65,7 +65,7 @@ export default function Home(props) {
       ).catch((e)=>{console.log("Task List Error"+e)})
   }
     const deltask=async(taskid)=>{
-      var token = JSON.parse(localStorage.getItem("login"));
+      var token = await JSON.parse(localStorage.getItem("login"));
       let realtoken = token.token;
       await fetch("https://dushyant70-task-app.herokuapp.com/tasks/"+taskid,{method:"DELETE", headers:{"Authorization": "Bearer "+realtoken}}).then(
           (response)=>{
@@ -77,7 +77,7 @@ export default function Home(props) {
       ).catch((e)=>{console.log("Delete Task Error"+e)})
   }
     const taskdescription=async(taskid)=>{
-      var token = JSON.parse(localStorage.getItem("login"));
+      var token = await JSON.parse(localStorage.getItem("login"));
       let realtoken = token.token;
       let completed = true;
       await fetch("https://dushyant70-task-app.herokuapp.com/tasks/"+taskid,{method:"PATCH", headers:{"Authorization": "Bearer "+realtoken},body: JSON.stringify(completed)}).then(

@@ -19,35 +19,25 @@ export default function Welcome() {
 
     //Function to Signup user
     const userSignup= async(name,email,password)=>{
-        fetch("https://dushyant70-task-app.herokuapp.com/users",{method:"POST",body: JSON.stringify({name,email,password}), headers: {"content-type":"application/json"}}).then(
-            (response)=>{
-                response.json().then((result)=>{
-                    // console.log(result);
-                })
-            }
-        )
+       const result = await fetch("https://dushyant70-task-app.herokuapp.com/users",{method:"POST",body: JSON.stringify({name,email,password}), headers: {"content-type":"application/json"}})
+        
     }
 
     //Function to login the user and save the token to localstorage
     const userLogin=async(email,password)=>{
-        fetch("https://dushyant70-task-app.herokuapp.com/users/login",{method:"POST",body:JSON.stringify({email,password}), headers:{"content-type":"application/json"}}).then(
-            (response)=>{
-                if(response.status===400){
-                    alert("Incorrect Username or password, Please Try Again");
-                    return false;
-                }   
-                response.json().then((result)=>{
-                    // console.log(result);
-                    localStorage.setItem("login",JSON.stringify({
-                        login: true,
-                        token: result.token
-                    }))
-                    setIsLogin(true);
-                })
-                navigate('/home')
-            }
-
-        )
+        const response = await fetch("https://dushyant70-task-app.herokuapp.com/users/login",{method:"POST",body:JSON.stringify({email,password}), headers:{"content-type":"application/json"}})
+        const result = await response.json()
+        localStorage.setItem("login",JSON.stringify({
+                login: true,
+                token: result.token
+        }))
+        if(response.status===400){
+                        alert("Incorrect Username or password, Please Try Again");
+                        return false;
+                    }  else {
+                        setIsLogin(true)
+                        navigate("/home")
+                    } 
     }
     return (
         <div className="container">
